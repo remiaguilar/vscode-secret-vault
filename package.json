@@ -1,0 +1,179 @@
+{
+  "name": "secret-vault",
+  "displayName": "Secret Vault",
+  "description": "Bóveda cifrada de secretos con Zero-Knowledge",
+  "version": "0.0.1",
+  "publisher": "remiaguilar",
+  "author": {
+    "name": "Remi Aguilar",
+    "url": "https://remiaguilar.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remiaguilar/vs-notes"
+  },
+  "bugs": {
+    "url": "https://github.com/remiaguilar/vs-notes/issues"
+  },
+  "homepage": "https://github.com/remiaguilar/vs-notes#readme",
+  "keywords": [
+    "secrets",
+    "vault",
+    "encryption",
+    "passwords",
+    "zero-knowledge",
+    "aes-256",
+    "open-source"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "secretVault.selectDirectory",
+        "title": "Seleccionar Directorio de Bóveda",
+        "category": "Secret Vault",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "secretVault.unlock",
+        "title": "Desbloquear Bóveda",
+        "category": "Secret Vault",
+        "icon": "$(unlock)"
+      },
+      {
+        "command": "secretVault.lock",
+        "title": "Bloquear Bóveda",
+        "category": "Secret Vault",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "secretVault.changeMasterPassword",
+        "title": "Cambiar Contraseña Maestra",
+        "category": "Secret Vault",
+        "icon": "$(key)"
+      },
+      {
+        "command": "secretVault.refresh",
+        "title": "Refrescar",
+        "category": "Secret Vault",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "secretVault.createFolder",
+        "title": "Nueva Carpeta",
+        "category": "Secret Vault",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "secretVault.createSecret",
+        "title": "Nuevo Secreto",
+        "category": "Secret Vault",
+        "icon": "$(key)"
+      },
+      {
+        "command": "secretVault.editItem",
+        "title": "Editar",
+        "category": "Secret Vault",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "secretVault.deleteItem",
+        "title": "Eliminar",
+        "category": "Secret Vault",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "secretVault.copyPassword",
+        "title": "Copiar Contraseña",
+        "category": "Secret Vault"
+      },
+      {
+        "command": "secretVault.copyUsername",
+        "title": "Copiar Usuario",
+        "category": "Secret Vault"
+      },
+      {
+        "command": "secretVault.copyNotes",
+        "title": "Copiar Notas",
+        "category": "Secret Vault"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "secret-vault",
+          "title": "Secret Vault",
+          "icon": "$(lock)"
+        }
+      ]
+    },
+    "views": {
+      "secret-vault": [
+        {
+          "id": "secretVaultView",
+          "name": "Bóveda"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "secretVault.refresh",
+          "when": "view == secretVaultView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "secretVault.createFolder",
+          "when": "view == secretVaultView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "secretVault.createSecret",
+          "when": "view == secretVaultView",
+          "group": "navigation@3"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "secretVault.copyPassword",
+          "when": "view == secretVaultView && viewItem =~ /hasPassword/"
+        },
+        {
+          "command": "secretVault.copyUsername",
+          "when": "view == secretVaultView && viewItem =~ /hasUsername/"
+        },
+        {
+          "command": "secretVault.copyNotes",
+          "when": "view == secretVaultView && viewItem =~ /hasNotes/"
+        },
+        {
+          "command": "secretVault.deleteItem",
+          "when": "view == secretVaultView"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "build": "npm run compile && (code --uninstall-extension remiaguilar.secret-vault || true) && vsce package --allow-missing-repository --allow-star-activation --no-yarn && code --install-extension secret-vault-0.0.1.vsix --force"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.x",
+    "@typescript-eslint/parser": "^6.x",
+    "eslint": "^8.x",
+    "typescript": "^5.3.0"
+  }
+}
